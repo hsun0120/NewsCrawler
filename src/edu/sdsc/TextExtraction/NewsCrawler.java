@@ -8,10 +8,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class NewsCrawler {
+	static final int TIMEOUT = 10000;
+	
 	public String getContent(String url) {
 		StringBuilder contentBuf = new StringBuilder();
 		try {
-			Document doc = Jsoup.connect(url.trim()).get();
+			Document doc = Jsoup.connect(url.trim()).timeout(TIMEOUT).get();
 			Elements paragraphs = doc.getElementById("articleContent").select("p");
 			for(Element paragraph : paragraphs)
 				contentBuf.append(paragraph.text().trim() + "\n");
@@ -25,7 +27,8 @@ public class NewsCrawler {
 		NewsCrawler nc = new NewsCrawler();
 		String text = nc.getContent("http://paper.people.com.cn/rmrb/html/"
 				+ "2018-02/01/nw.D110000renmrb_20180201_4-17.htm");
-		String tokens = Segmenter.segment(text);
+		Segmenter seg = new Segmenter();
+		String tokens = seg.segment(text);
 		System.out.println(tokens);
 	}
 }

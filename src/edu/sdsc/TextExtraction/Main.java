@@ -22,6 +22,8 @@ public class Main {
 			while(sc.hasNextLine()) {
 				String[] cols = sc.nextLine().split("\t");
 				String content = seg.segment(crawler.getContent(cols[2]));
+				if(content == null)
+					continue;
 				pdi.query(conn, String.format(UPDATE, content, cols[0]));
 				System.out.println(cols[0]);
 			}

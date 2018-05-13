@@ -8,7 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class NewsCrawler {
-	static final int TIMEOUT = 10000;
+	static final int TIMEOUT = 100000;
 	
 	public String getContent(String url) {
 		StringBuilder contentBuf = new StringBuilder();
@@ -19,6 +19,8 @@ public class NewsCrawler {
 				contentBuf.append(paragraph.text().trim() + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (NullPointerException n) {
+			return null;
 		}
 		return contentBuf.toString();
 	}
